@@ -1,0 +1,2 @@
+# Defense in depth for XAMPP: the Next.js project must never be served by Apache.
+Require all denied
