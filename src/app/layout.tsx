@@ -4,7 +4,6 @@ import "./css/globals.css";
 import { Flowbite, ThemeModeScript } from "flowbite-react";
 import customTheme from "@/utils/theme/custom-theme";
 import { CustomizerContextProvider } from "@/app/context/customizerContext";
-import "./api/index"
 import Providers from "@/app/providers";
 
 

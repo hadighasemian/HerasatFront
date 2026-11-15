@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
-import aiChatReducer from './aiChatSlice';
 import authReducer from './authSlice';
 
 const persistConfig = {
@@ -11,7 +10,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    chats: aiChatReducer,
     auth: authReducer,
 });
 

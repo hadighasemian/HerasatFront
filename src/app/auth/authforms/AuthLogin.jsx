@@ -9,7 +9,6 @@ import {useDispatch} from "react-redux";
 import { useFormik} from 'formik';
 import AuthModel from "@/resources/models/Auth/AuthModel";
 import LogIn from "@/resources/db/function/auth/LogIn";
-import Login from "@/app/auth/auth1/login/page";
 import URLs from "@/resources/Net/URLs";
 
 
