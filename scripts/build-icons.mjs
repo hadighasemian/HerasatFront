@@ -2,9 +2,11 @@
 // fully offline (intranet / no access to api.iconify.design) and the CSP can stay connect-src 'self'.
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getIcons } from "@iconify/utils";
 
-const root = new URL("..", import.meta.url).pathname;
+// fileURLToPath: URL.pathname gives "/C:/..." on Windows, which breaks path.join
+const root = fileURLToPath(new URL("..", import.meta.url));
 const prefixes = ["solar", "tabler"];
 const re = new RegExp(`\\b(${prefixes.join("|")}):([a-z0-9-]+)`, "g");
 const found = new Map(prefixes.map((p) => [p, new Set()]));
