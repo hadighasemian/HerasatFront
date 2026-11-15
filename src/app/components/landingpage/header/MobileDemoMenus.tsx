@@ -5,16 +5,16 @@ import Link from "next/link";
 import { demosMegamenu, appsMegamenu } from "../Data";
 import * as AppsData from "@/app/(DashboardLayout)/layout/vertical/header/Data";
 import { IconChevronDown, IconHelp } from "@tabler/icons-react";
-import { Button } from "flowbite-react";
+import { AccordionContent, AccordionPanel, AccordionTitle, Button } from "flowbite-react";
 import { Accordion } from "flowbite-react";
 import Quicklinks from "@/app/(DashboardLayout)/layout/vertical/header/Quicklinks";
 const MobileDemosMenu = () => {
   return (
     <>
       <Accordion collapseAll className="shadow-none mt-4 divide-none">
-        <Accordion.Panel>
-          <Accordion.Title className="py-3 px-0">Demos</Accordion.Title>
-          <Accordion.Content className="px-0 py-3">
+        <AccordionPanel>
+          <AccordionTitle className="py-3 px-0">Demos</AccordionTitle>
+          <AccordionContent className="px-0 py-3">
             <div className="p-0">
               <div className="mb-5">
                 <h5 className="card-title">Different Demos</h5>
@@ -82,11 +82,11 @@ const MobileDemosMenu = () => {
                 </div>
               </div>
             </div>
-          </Accordion.Content>
-        </Accordion.Panel>
-        <Accordion.Panel>
-          <Accordion.Title className="py-3 px-0">Pages</Accordion.Title>
-          <Accordion.Content className="px-0 py-3">
+          </AccordionContent>
+        </AccordionPanel>
+        <AccordionPanel>
+          <AccordionTitle className="py-3 px-0">Pages</AccordionTitle>
+          <AccordionContent className="px-0 py-3">
             <div className="grid grid-cols-12 w-full">
               <div className="lg:col-span-8 col-span-12 flex items-stretch lg:px-5 lg:pr-0 px-0 py-5">
                 <div className="grid grid-cols-12 lg:gap-3 w-full">
@@ -143,8 +143,8 @@ const MobileDemosMenu = () => {
                 <Quicklinks />
               </div>
             </div>
-          </Accordion.Content>
-        </Accordion.Panel>
+          </AccordionContent>
+        </AccordionPanel>
       </Accordion>
     </>
   );

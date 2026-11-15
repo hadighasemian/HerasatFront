@@ -10,16 +10,13 @@ export default function LoginGuard({ children }: { children: React.ReactNode }) 
   const {login,user } = authModel();
 
   useEffect(() => {
-    authCheck();
-  }, []);
-
-  const authCheck = () => {
     if (!login?.login && user?.role?.title!=='admin') {
       router.push('/auth/auth2/login');
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthorized(true);
     }
-  };
+  }, [login, user, router]);
 
   return authorized ? children : null;
 }

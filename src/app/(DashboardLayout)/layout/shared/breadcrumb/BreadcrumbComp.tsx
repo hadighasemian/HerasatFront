@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import { Badge, Breadcrumb } from "flowbite-react";
+import { Badge, Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import CardBox from "@/app/components/shared/CardBox";
 import { Icon } from "@iconify/react";
 interface BreadCrumbType {
   subtitle?: string;
   items?: any[];
   title: string;
-  children?: JSX.Element;
+  children?: React.JSX.Element;
 }
 
 const BreadcrumbComp = ({ items, title }: BreadCrumbType) => {
@@ -21,13 +21,13 @@ const BreadcrumbComp = ({ items, title }: BreadCrumbType) => {
               ? items.map((item) => (
                   <div key={item.title}>
                     {item.to ? (
-                      <Breadcrumb.Item href={item.to}>
+                      <BreadcrumbItem href={item.to}>
                         <Icon
                           icon="solar:home-2-line-duotone"
                           height={20}
                         ></Icon>{" "}
                         <span className="ms-3">/</span>
-                      </Breadcrumb.Item>
+                      </BreadcrumbItem>
                     ) : (
                       <Badge color={"lightprimary"}>{item.title}</Badge>
                     )}

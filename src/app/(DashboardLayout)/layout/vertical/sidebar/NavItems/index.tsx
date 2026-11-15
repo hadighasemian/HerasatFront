@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { ChildItem } from "../Sidebaritems";
-import { Sidebar } from "flowbite-react";
+import { Sidebar, SidebarItem } from "flowbite-react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,7 +14,7 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
   const pathname = usePathname();
   return (
     <>
-      <Sidebar.Item
+      <SidebarItem
         href={item.url}
         as={Link}
         className={`${item.url == pathname
@@ -35,7 +35,7 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
           )}
           <span className="max-w-36 overflow-hidden">{i18n.t(item?.name || "")}</span>
         </span>
-      </Sidebar.Item>
+      </SidebarItem>
     </>
   );
 };

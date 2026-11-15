@@ -226,30 +226,6 @@
   }
 
   /* Button Hover Color Set */
-  button.bg-primary {
-    @apply hover:bg-primaryemphasis
-  }
-
-  button.bg-secondary {
-    @apply hover:bg-secondaryemphasis
-  }
-
-  button.bg-info {
-    @apply hover:bg-infoemphasis
-  }
-
-  button.bg-error {
-    @apply hover:bg-erroremphasis
-  }
-
-  button.bg-success {
-    @apply hover:bg-successemphasis
-  }
-
-  button.bg-warning {
-    @apply hover:bg-warningemphasis
-  }
-
   /* Headlessui */
   .ui-button{
     @apply flex items-stretch justify-between text-center py-2.5 px-5 text-white text-center font-medium rounded-full 
@@ -277,3 +253,10 @@
   }
    
 }
+/* Button hover colors (outside @layer so Tailwind doesn't generate variants for them) */
+:where(button).bg-primary:hover { background-color: var(--color-primary-emphasis); }
+:where(button).bg-secondary:hover { background-color: var(--color-secondary-emphasis); }
+:where(button).bg-info:hover { background-color: var(--color-info-emphasis); }
+:where(button).bg-error:hover { background-color: var(--color-error-emphasis); }
+:where(button).bg-success:hover { background-color: var(--color-success-emphasis); }
+:where(button).bg-warning:hover { background-color: var(--color-warning-emphasis); }

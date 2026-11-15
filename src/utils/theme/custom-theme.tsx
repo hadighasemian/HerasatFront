@@ -1,4 +1,6 @@
-const customTheme = {
+import { createTheme } from "flowbite-react";
+
+const customTheme = createTheme({
   button: {
     base: "group relative flex items-stretch justify-center text-center p-0.5 text-center font-medium",
     fullSized: "w-full",
@@ -220,14 +222,12 @@ const customTheme = {
   },
 
   checkbox: {
-    root: {
-      base: "rounded border-2 cursor-pointer ",
-      color: {
-        default: "text-primary",
-        primary: "text-primary",
-        secondary: "text-secondary",
-        error: "text-error",
-      },
+    base: "rounded border-2 cursor-pointer ",
+    color: {
+      default: "text-primary",
+      primary: "text-primary",
+      secondary: "text-secondary",
+      error: "text-error",
     },
   },
 
@@ -715,6 +715,6 @@ const customTheme = {
   },
   
   
-};
+});
 
 export default customTheme;

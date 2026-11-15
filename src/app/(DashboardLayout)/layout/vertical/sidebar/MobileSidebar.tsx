@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { Sidebar } from "flowbite-react";
+import { Sidebar, SidebarItemGroup, SidebarItems } from "flowbite-react";
 import { IconSidebar } from "./IconSidebar";
 import SidebarContent from "./Sidebaritems";
 import NavItems from "./NavItems";
@@ -26,8 +26,8 @@ const MobileSidebar = () => {
           aria-label="Sidebar with multi-level dropdown example"
         >
           <SimpleBar className="h-[calc(100vh_-_85px)]">
-            <Sidebar.Items className="ps-4 pe-4">
-              <Sidebar.ItemGroup className="sidebar-nav">
+            <SidebarItems className="ps-4 pe-4">
+              <SidebarItemGroup className="sidebar-nav">
                 {selectedContent &&
                   selectedContent.items?.map((item, index) => (
                     <React.Fragment key={index}>
@@ -45,8 +45,8 @@ const MobileSidebar = () => {
                       ))}
                     </React.Fragment>
                   ))}
-              </Sidebar.ItemGroup>
-            </Sidebar.Items>
+              </SidebarItemGroup>
+            </SidebarItems>
           </SimpleBar>
         </Sidebar>
       </div>

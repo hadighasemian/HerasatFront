@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Flowbite } from "flowbite-react";
+import { ThemeProvider } from "flowbite-react";
 import LpHeader from "@/app/components/landingpage/header/Header";
 import customTheme from "@/utils/theme/custom-theme";
 import LpBanners from "@/app/components/landingpage/banner/banner";
@@ -13,13 +13,13 @@ const Landingpage = () => {
   }, []);
   return (
     <>
-      <Flowbite theme={{ theme: customTheme }}>
+      <ThemeProvider theme={customTheme}>
         <div className="landingpage overflow-x-hidden">
           <LpHeader />
           <LpBanners />
           <Footer />
         </div>
-      </Flowbite>
+      </ThemeProvider>
     </>
   );
 };

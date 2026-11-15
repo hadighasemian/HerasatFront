@@ -1,6 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react";
-import { Button, Dropdown } from "flowbite-react";
+import { Button, Dropdown, DropdownItem } from "flowbite-react";
 import React from "react";
 import * as profileData from "../../header/Data";
 import Link from "next/link";
@@ -69,7 +69,7 @@ const SideProfile = () => {
             </div>
             <SimpleBar>
               {profileData.profileDD.map((items, index) => (
-                  <Dropdown.Item
+                  <DropdownItem
                       as={Link}
                       href={items.url}
                       className="px-6 py-3 flex justify-between items-center bg-hover group/link w-full"
@@ -92,7 +92,7 @@ const SideProfile = () => {
                         </div>
                       </div>
                     </div>
-                  </Dropdown.Item>
+                  </DropdownItem>
               ))}
             </SimpleBar>
 

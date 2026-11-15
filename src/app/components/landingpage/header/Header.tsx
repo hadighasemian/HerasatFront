@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import "flowbite";
-import {Navbar } from "flowbite-react";
+import { Navbar, NavbarCollapse, NavbarLink } from "flowbite-react";
 import FullLogo from "@/app/(DashboardLayout)/layout/shared/logo/FullLogo";
 import PagesMenu from "./Pagesmenu";
 import DemosMenu from "./DemosMenu";
@@ -38,23 +38,23 @@ const Header = () => {
         <Navbar className="fluid py-6 !px-0">
           <FullLogo />
           <MobileDrawer/>
-          <Navbar.Collapse className="xl:block hidden">
+          <NavbarCollapse className="xl:block hidden">
             <DemosMenu />
             <PagesMenu />
-            <Navbar.Link as={Link} href="#">
+            <NavbarLink as={Link} href="#">
               Documentation
-            </Navbar.Link>
-            <Navbar.Link as={Link} href="https://support.wrappixel.com/">
+            </NavbarLink>
+            <NavbarLink as={Link} href="https://support.wrappixel.com/">
               Support
-            </Navbar.Link>
-            <Navbar.Link
+            </NavbarLink>
+            <NavbarLink
               as={Link}
               href="/auth/auth1/login"
               className="bg-primary text-white text-sm hover:bg-primary hover:text-white dark:hover:text-white hover:bg-primaryemphasis py-2 px-5"
             >
               Login
-            </Navbar.Link>
-          </Navbar.Collapse>
+            </NavbarLink>
+          </NavbarCollapse>
         </Navbar>
       </header>
     </>

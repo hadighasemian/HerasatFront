@@ -1,7 +1,6 @@
 "use client";
-import "flowbite";
 import React, { useState, useEffect, useContext } from "react";
-import { DarkThemeToggle, Navbar } from "flowbite-react";
+import { DarkThemeToggle, DrawerItems, Navbar, NavbarCollapse } from "flowbite-react";
 import Search from "./Search";
 import { Icon } from "@iconify/react";
 import AppLinks from "./AppLinks";
@@ -80,7 +79,7 @@ const Header = ({ layoutType }: HeaderPropsType) => {
             <Icon icon="solar:hamburger-menu-line-duotone" height={21} />
           </span>
           {/* Toggle Icon   */}
-          <Navbar.Collapse className="xl:block ">
+          <NavbarCollapse className="xl:block ">
             <div className="flex gap-3 items-center relative">
               {layoutType == "horizontal" ? (
                 <div className="me-3">
@@ -108,14 +107,14 @@ const Header = ({ layoutType }: HeaderPropsType) => {
 
               <Search />
             </div>
-          </Navbar.Collapse>
+          </NavbarCollapse>
 
           {/* mobile-logo */}
           <div className="block xl:hidden">
             <FullLogo />
           </div>
 
-          <Navbar.Collapse className="xl:block hidden">
+          <NavbarCollapse className="xl:block hidden">
             <div className="flex gap-3 items-center">
               {/* Theme Toggle */}
               {activeMode === "light" ? (
@@ -161,7 +160,7 @@ const Header = ({ layoutType }: HeaderPropsType) => {
               {/* Profile Dropdown */}
               <Profile  />
             </div>
-          </Navbar.Collapse>
+          </NavbarCollapse>
           {/* Mobile Toggle Icon */}
           <span
             className="h-10 w-10 flex xl:hidden hover:text-primary hover:bg-lightprimary rounded-full justify-center items-center cursor-pointer"
@@ -188,9 +187,9 @@ const Header = ({ layoutType }: HeaderPropsType) => {
 
       {/* Mobile Sidebar */}
       <Drawer open={isOpen} onClose={handleClose} className="w-130">
-        <Drawer.Items>
+        <DrawerItems>
           <MobileSidebar />
-        </Drawer.Items>
+        </DrawerItems>
       </Drawer>
     </>
   );

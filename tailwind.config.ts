@@ -1,14 +1,13 @@
 import type { Config } from "tailwindcss";
-import flowbite from "flowbite-react/tailwind";
+import flowbiteReact from "flowbite-react/plugin/tailwindcss";
+
 const config: Config = {
   darkMode: "class",
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
 
     // Flowbite content
-    flowbite.content(),
+    ".flowbite-react/class-list.json"
   ],
   theme: {
     extend: {
@@ -81,10 +80,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    //Add Flowbite Plugin
-
-    require("flowbite/plugin"),
-  ],
+  plugins: [flowbiteReact],
 };
 export default config;

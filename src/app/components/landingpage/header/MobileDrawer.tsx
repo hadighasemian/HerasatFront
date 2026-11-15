@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Drawer } from "flowbite-react";
+import { Button, Drawer, DrawerItems } from "flowbite-react";
 import { IconMenu2 } from "@tabler/icons-react";
 import Link from "next/link";
 import MobileDemosMenu from "./MobileDemoMenus";
@@ -20,7 +20,7 @@ const MobileDrawer = () => {
         </Button>
       </div>
       <Drawer open={isOpen} onClose={handleClose}>
-        <Drawer.Items className="p-6">
+        <DrawerItems className="p-6">
           <FullLogo />
           <MobileDemosMenu />
           <Link
@@ -36,7 +36,7 @@ const MobileDrawer = () => {
             Support
           </Link>
           <Button color={"primary"} className="mt-2" as={Link} href="/auth/auth1/login">Login</Button>
-        </Drawer.Items>
+        </DrawerItems>
       </Drawer>
     </>
   );

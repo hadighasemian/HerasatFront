@@ -6,7 +6,7 @@ import React from "react";
 import Image from "next/image";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { Badge, Button, Dropdown } from "flowbite-react";
+import { Badge, Button, Dropdown, DropdownItem } from "flowbite-react";
 import i18n from "@/utils/i18n";
 
 const Messages = () => {
@@ -36,7 +36,7 @@ const Messages = () => {
         </div>
         <SimpleBar className="max-h-80 mt-3">
           {MessagesData.MessagesLink.map((links, index) => (
-            <Dropdown.Item
+            <DropdownItem
               as={Link}
               href="#"
               className="px-6 py-3 flex justify-between items-center bg-hover group/link w-full"
@@ -67,7 +67,7 @@ const Messages = () => {
               <span className="text-xs block self-start pt-1.5">
                 {links.time}
               </span>
-            </Dropdown.Item>
+            </DropdownItem>
           ))}
         </SimpleBar>
         <div className="pt-5 px-6">

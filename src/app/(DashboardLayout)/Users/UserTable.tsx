@@ -11,7 +11,7 @@ import {
     ColumnFiltersState,
     SortingState,
 } from '@tanstack/react-table';
-import {Badge, Dropdown, Button, TextInput, Spinner} from "flowbite-react";
+import { Badge, Button, Dropdown, DropdownItem, Spinner, TextInput } from "flowbite-react";
 import Image from "next/image";
 import {IconDots, IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight} from "@tabler/icons-react";
 import {Icon} from "@iconify/react";
@@ -33,7 +33,7 @@ const columnHelper = createColumnHelper<UserType>();
 function UserTable() {
     const [data, setData] = useState<UserType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const [popupDeleteModal, setPopupDeleteModal] = useState(false);
@@ -132,7 +132,7 @@ function UserTable() {
           </span>
                     )}
                 >
-                    <Dropdown.Item
+                    <DropdownItem
                         className="flex gap-3"
                         onClick={() => {
                             setEditUser(info.row.original);
@@ -141,8 +141,8 @@ function UserTable() {
                     >
                         <Icon icon="solar:pen-new-square-broken" height={18}/>
                         <span>ویرایش</span>
-                    </Dropdown.Item>
-                    <Dropdown.Item
+                    </DropdownItem>
+                    <DropdownItem
                         className="flex gap-3 text-red-500"
                         onClick={() => {
                             setDeleteUser(info.row.original);
@@ -150,7 +150,7 @@ function UserTable() {
                     >
                         <Icon icon="solar:trash-bin-minimalistic-outline" height={18}/>
                         <span>حذف</span>
-                    </Dropdown.Item>
+                    </DropdownItem>
                 </Dropdown>
             ),
             header: () => <span>عملیات</span>,
@@ -214,8 +214,7 @@ function UserTable() {
             });
 
         } catch (err) {
-            // @ts-ignore
-            setError(err.message || 'An error occurred');
+            setError((err as Error).message || 'An error occurred');
         } finally {
             setIsLoading(false);
         }

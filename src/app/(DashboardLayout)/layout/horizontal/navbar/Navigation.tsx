@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar } from 'flowbite-react';
+import { Navbar, NavbarCollapse } from "flowbite-react";
 import Link from 'next/link';
 import Menuitems from '@/app/(DashboardLayout)/layout/horizontal/MenuData';
 import { IconChevronDown } from '@tabler/icons-react';
@@ -27,7 +27,7 @@ const Navigation = () => {
   const { t } = useTranslation();
   return (
     <Navbar fluid={true} rounded={true} className="horizontal-nav bg-transparent dark:bg-transparent sm:px-0 xl:py-2.5 py-0">
-      <Navbar.Collapse className="xl:block">
+      <NavbarCollapse className="xl:block">
         <ul className="flex items-center space-x-3">
           {Menuitems.map((item) => (
             <li key={item.id} className="relative group">
@@ -83,7 +83,7 @@ const Navigation = () => {
             </li>
           ))}
         </ul>
-      </Navbar.Collapse>
+      </NavbarCollapse>
     </Navbar>
   );
 };

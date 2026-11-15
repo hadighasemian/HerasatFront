@@ -1,6 +1,6 @@
-"use-client";
+"use client";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Icon } from "@iconify/react";
 import Miniicons from "./MiniSidebar";
 import SimpleBar from "simplebar-react";
@@ -11,15 +11,12 @@ import i18n from "@/utils/i18n";
 
 export const IconSidebar = () => {
   const { selectedIconId, setSelectedIconId, setIsCollapse } = useContext(CustomizerContext) || {};
-  const [activeIcon, setActiveIcon] = useState(selectedIconId);
-
-  // Effect to store and retrieve selectedIconId from localStorage
-  useEffect(() => {
-    const storedIconId = localStorage.getItem("selectedIconId");
-    if (storedIconId) {
-      setActiveIcon(parseInt(storedIconId));
-    }
-  }, []);
+  // Restore selectedIconId from localStorage (client only)
+  const [activeIcon, setActiveIcon] = useState(() => {
+    if (typeof window === "undefined") return selectedIconId;
+    const storedIconId = window.localStorage.getItem("selectedIconId");
+    return storedIconId ? parseInt(storedIconId) : selectedIconId;
+  });
 
   // Handle icon click
   const handleClick = (id: any) => {

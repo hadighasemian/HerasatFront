@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import { Sidebar } from "flowbite-react";
+import { Sidebar, SidebarItemGroup, SidebarItems } from "flowbite-react";
 import { IconSidebar } from "./IconSidebar";
 import SidebarContent from "./Sidebaritems";
 import NavItems from "./NavItems";
@@ -32,8 +32,8 @@ const SidebarLayout = () => {
         >
 
           <SimpleBar className="h-[calc(100vh_-_85px)]">
-            <Sidebar.Items className="pe-4 rtl:pe-0 rtl:ps-4">
-              <Sidebar.ItemGroup className="sidebar-nav hide-menu ">
+            <SidebarItems className="pe-4 rtl:pe-0 rtl:ps-4">
+              <SidebarItemGroup className="sidebar-nav hide-menu ">
                 {selectedContent &&
                   selectedContent.items?.map((item, index) => (
                     <React.Fragment key={index}>
@@ -51,8 +51,8 @@ const SidebarLayout = () => {
                       ))}
                     </React.Fragment>
                   ))}
-              </Sidebar.ItemGroup>
-            </Sidebar.Items>
+              </SidebarItemGroup>
+            </SidebarItems>
           </SimpleBar>
         </Sidebar>
       </div>

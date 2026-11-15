@@ -1,11 +1,12 @@
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false,
-    output: 'export',
-    images: {
-        domains: ['dash.mesbot.ir'], // Add allowed domains
-        unoptimized: true
-    },
+  reactStrictMode: true,
+  poweredByHeader: false,
+  images: {
+    unoptimized: true,
+  },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);
