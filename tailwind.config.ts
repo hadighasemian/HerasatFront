@@ -5,6 +5,8 @@ const config: Config = {
   darkMode: "class",
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx}",
 
     // Flowbite content
     ".flowbite-react/class-list.json"
