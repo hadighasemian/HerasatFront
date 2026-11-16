@@ -89,7 +89,7 @@ export default function DashboardHome() {
       ) : null}
 
       {canReview && pending !== null ? (
-        <Link href="/dashboard/reports?status=submitted">
+        <Link href="/dashboard/reports?status=submitted" className="block">
           <CardBox>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

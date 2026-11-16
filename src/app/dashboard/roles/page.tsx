@@ -138,7 +138,8 @@ function RolesPage() {
         </Alert>
       ) : null}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-30">
-        <CardBox>
+        {/* self-start: a stretched card centres its content and leaves a gap above the list */}
+        <CardBox className="lg:self-start">
           <h2 className="font-semibold mb-3">نقش‌ها</h2>
           {!roles.length ? <Spinner /> : null}
           <ul className="space-y-1">

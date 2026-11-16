@@ -3,6 +3,8 @@ import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import config from './config'
 
 
+const MODE_KEY = "flowbite-theme-mode";
+
 // Define the shape of the context state
 interface CustomizerContextState {
   selectedIconId: number;
@@ -37,7 +39,8 @@ interface CustomizerContextProps {
 export const CustomizerContextProvider: React.FC<CustomizerContextProps> = ({ children }) => {
   const [selectedIconId, setSelectedIconId] = useState<number>(1);
   const [activeDir, setActiveDir] = useState<string>(config.activeDir);
-  const [activeMode, setActiveMode] = useState<string>(config.activeMode);
+  const [activeMode, setActiveModeState] = useState<string>(config.activeMode);
+  const [modeLoaded, setModeLoaded] = useState(false);
   const [activeTheme, setActiveTheme] = useState<string>(config.activeTheme);
   const [activeLayout, setActiveLayout] = useState<string>(config.activeLayout);
   const [isCardShadow, setIsCardShadow] = useState<boolean>(config.isCardShadow);
@@ -46,16 +49,42 @@ export const CustomizerContextProvider: React.FC<CustomizerContextProps> = ({ ch
   const [isCollapse, setIsCollapse] = useState<string>(config.isCollapse);
   const [isLanguage, setIsLanguage] = useState<string>(config.isLanguage);
 
+  // Restore the saved light/dark choice (same key flowbite's ThemeModeScript applies before paint),
+  // so the mode survives full page loads instead of falling back to light on every navigation.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(MODE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (saved === "dark" || saved === "light") setActiveModeState(saved);
+    } catch {
+      /* storage blocked: keep the default */
+    }
+    setModeLoaded(true);
+  }, []);
+
+  const setActiveMode = (mode: string) => {
+    setActiveModeState(mode);
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch {
+      /* ignore */
+    }
+  };
+
   // Set attributes immediately
   useEffect(() => {
-    document.documentElement.setAttribute("class", activeMode);
+    if (modeLoaded) {
+      // toggle only our classes; replacing the whole class attribute wiped other classes
+      document.documentElement.classList.toggle("dark", activeMode === "dark");
+      document.documentElement.classList.toggle("light", activeMode !== "dark");
+    }
     document.documentElement.setAttribute("dir", activeDir);
     document.documentElement.setAttribute('data-color-theme', activeTheme);
     document.documentElement.setAttribute("data-layout", activeLayout);
     document.documentElement.setAttribute("data-boxed-layout", isLayout);
     document.documentElement.setAttribute("data-sidebar-type", isCollapse);
 
-  }, [activeMode, activeDir, activeTheme, activeLayout, isLayout, isCollapse]);
+  }, [modeLoaded, activeMode, activeDir, activeTheme, activeLayout, isLayout, isCollapse]);
 
   return (
     <CustomizerContext.Provider

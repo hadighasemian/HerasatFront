@@ -2,7 +2,9 @@ import { createTheme } from "flowbite-react";
 
 const customTheme = createTheme({
   button: {
-    base: "group relative flex items-stretch justify-center text-center p-0.5 text-center font-medium",
+    // flowbite-react 0.12 has no inner <span>: the size padding sits on the <button> itself, so
+    // content must be centred here (items-stretch pushed text/icons to the top).
+    base: "group relative flex items-center justify-center text-center font-medium focus:outline-none transition-colors",
     fullSized: "w-full",
     color: {
       primary: "bg-primary text-white",
@@ -68,7 +70,7 @@ const customTheme = createTheme({
         lightsecondary:
           "bg-lightsecondary dark:bg-lightsecondary text-secondary",
         lighterror: "bg-lighterror dark:bg-lighterror text-error",
-        lightgray: "bg-lightgray dark:bg-lightgray text-gray",
+        lightgray: "bg-lightgray dark:bg-darkmuted text-gray dark:text-white",
         white: "bg-white dark:bg-darkmuted text-dark dark:text-white",
         muted: "bg-muted dark:bg-darkmuted text-dark dark:text-white",
       },
@@ -91,7 +93,8 @@ const customTheme = createTheme({
   card: {
     root: {
       base: "flex rounded-lg dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words",
-      children: "flex h-full flex-col justify-center gap-2 p-0",
+      // justify-start: stretched cards (equal-height grid rows) otherwise float their content to the middle
+      children: "flex h-full flex-col justify-start gap-2 p-0",
     },
   },
 
@@ -176,7 +179,7 @@ const customTheme = createTheme({
 
   table: {
     root: {
-      base: "w-full text-left text-sm text-gray-500 dark:text-gray-400",
+      base: "w-full text-start text-sm text-gray-500 dark:text-gray-400",
       shadow:
         "absolute left-0 top-0 -z-10 h-full w-full  bg-transparent drop-shadow-md ",
       wrapper: "relative",
@@ -184,18 +187,19 @@ const customTheme = createTheme({
     head: {
       base: "group/head text-sm font-medium capitalize text-dark dark:text-white border-b border-ld",
       cell: {
-        base: "font-semibold px-4 py-4   dark:bg-transparent",
+        // *-none: the default first:rounded-tl-lg etc. notch the wrong corners in RTL
+        base: "font-semibold px-4 py-4 whitespace-nowrap bg-lightgray dark:bg-darkmuted group-first/head:first:rounded-tl-none group-first/head:last:rounded-tr-none",
       },
     },
     body: {
       base: "group/body",
       cell: {
-        base: "px-4 py-3 dark:bg-transparent",
+        base: "px-4 py-3 dark:bg-transparent group-first/body:group-first/row:first:rounded-tl-none group-first/body:group-first/row:last:rounded-tr-none group-last/body:group-last/row:first:rounded-bl-none group-last/body:group-last/row:last:rounded-br-none",
       },
     },
     row: {
       base: "group/row bg-transparent ",
-      hovered: "bg-hover dark:bg-transparent",
+      hovered: "hover:bg-lightgray dark:hover:bg-darkmuted",
       striped:
         "odd:bg-transparent  even:bg-gray-50 odd:dark:bg-dark even:dark:bg-gray-700",
     },

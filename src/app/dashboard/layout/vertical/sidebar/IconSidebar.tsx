@@ -22,7 +22,7 @@ export const IconSidebar = () => {
         {menu.map((m) => (
           <Tooltip key={m.id} content={m.name} placement="left" className="flowbite-tooltip">
             <Button
-              className={`h-12 w-12 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center mx-auto mb-2 ${m.id === active ? "text-primary bg-lightprimary" : "text-darklink bg-transparent"}`}
+              className={`h-12 w-12 p-0 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center mx-auto mb-2 ${m.id === active ? "text-primary bg-lightprimary" : "text-darklink bg-transparent"}`}
               type="button"
               aria-label={m.name}
               data-testid={`menu-section-${m.id}`}

@@ -31,7 +31,7 @@ const Header = () => {
           <Button
             onClick={() => setIsOpen(true)}
             aria-label="منو"
-            className="flex items-center justify-center text-dark dark:text-white h-10 w-10 rounded-full bg-transparent hover:bg-lightprimary"
+            className="flex items-center justify-center text-dark dark:text-white h-10 w-10 p-0 rounded-full bg-transparent hover:bg-lightprimary"
           >
             <IconMenu2 />
           </Button>

@@ -25,7 +25,7 @@ walk(join(root, "src"));
 const bundle = [];
 for (const prefix of prefixes) {
   const all = JSON.parse(readFileSync(join(root, "node_modules", "@iconify-json", prefix, "icons.json"), "utf8"));
-  const names = [...found.get(prefix)].filter((n) => all.icons[n] || all.aliases?.[n]);
+  const names = [...found.get(prefix)].sort().filter((n) => all.icons[n] || all.aliases?.[n]);
   const subset = getIcons(all, names);
   if (subset) bundle.push(subset);
 }

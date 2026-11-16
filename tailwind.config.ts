@@ -7,9 +7,13 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/lib/**/*.{js,ts,jsx,tsx}",
+    // flowbite theme overrides (custom-theme.tsx) – without this their classes are never generated
+    "./src/utils/**/*.{js,ts,jsx,tsx}",
 
     // Flowbite content
-    ".flowbite-react/class-list.json"
+    ".flowbite-react/class-list.json",
+    // the flowbite-react build adds this Windows spelling when it is missing; keep it so Windows builds leave the file unchanged
+    ".flowbite-react\\class-list.json"
   ],
   theme: {
     extend: {
