@@ -21,10 +21,11 @@ interface Tip {
   icon: string | null;
 }
 
+const DEFAULT_BANNER = "/images/slides/banner.webp";
+const DEFAULT_BANNER_SRCSET = "/images/slides/banner.webp 1920w, /images/slides/banner@2x.webp 3840w";
+
 const DEFAULT_SLIDES: Slide[] = [
-  { id: "d1", title: "حراست مجتمع مس شهربابک", subtitle: "پاسداری از سرمایه‌های انسانی، اطلاعاتی و فیزیکی مجتمع", link_url: "/about", image_url: "/images/slides/slide-1.svg" },
-  { id: "d2", title: "گزارش شما، امنیت همه", subtitle: "هرگونه تخلف یا موضوع امنیتی را به‌صورت محرمانه گزارش دهید", link_url: "/report", image_url: "/images/slides/slide-2.svg" },
-  { id: "d3", title: "رمز عبور قوی بسازید", subtitle: "با ابزار تولید رمز عبور، رمزهای امن و تصادفی بسازید", link_url: "/password-generator", image_url: "/images/slides/slide-3.svg" },
+  { id: "d1", title: "شعار سال ۱۴۰۵", subtitle: null, link_url: null, image_url: DEFAULT_BANNER },
 ];
 
 const DEFAULT_TIPS: Tip[] = [
@@ -43,8 +44,21 @@ const LINK_CARDS = [
   { href: "/about", title: "درباره حراست", text: "آشنایی با وظایف و واحدهای حراست مجتمع", icon: "solar:shield-user-line-duotone", color: "bg-lightwarning text-warning" },
 ];
 
-function isSafeLink(url: string | null): url is string {
-  return !!url && (/^\/(?!\/)/.test(url) || /^https?:\/\//.test(url));
+function SlideImage({ slide }: { slide: Slide }) {
+  const src = slide.image_url || DEFAULT_BANNER;
+  const isDefaultBanner = src.includes("/images/slides/banner");
+  return (
+    <div className="relative h-full w-full" data-testid="carousel-item">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        srcSet={isDefaultBanner ? DEFAULT_BANNER_SRCSET : undefined}
+        sizes={isDefaultBanner ? "(min-width: 1280px) 1152px, 100vw" : undefined}
+        alt={slide.title || ""}
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+    </div>
+  );
 }
 
 export default function HomeContent() {
@@ -58,29 +72,18 @@ export default function HomeContent() {
 
   return (
     <>
-      {/* Carousel */}
+      {/* Banner / carousel: image only — title is the img alt, no text overlay. */}
       <section className="container pt-8">
-        <div className="h-56 sm:h-72 xl:h-[420px] rounded-[24px] overflow-hidden shadow-md" dir="ltr">
-          <Carousel slideInterval={6000} pauseOnHover>
-            {slides.map((s) => (
-              <div key={s.id} className="relative h-full w-full">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.image_url || "/images/slides/slide-1.svg"} alt="" className="absolute inset-0 h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-l from-black/55 to-black/10" />
-                <div className="relative h-full flex flex-col justify-center items-end text-right px-8 sm:px-16" dir="rtl">
-                  <h2 className="text-white text-2xl sm:text-4xl font-bold mb-3 w-full">{s.title}</h2>
-                  {s.subtitle ? <p className="text-white/90 sm:text-lg max-w-xl w-full">{s.subtitle}</p> : null}
-                  {isSafeLink(s.link_url) ? (
-                    <div className="w-full mt-5">
-                      <Link href={s.link_url} className="inline-block bg-white text-primary font-semibold rounded-md px-5 py-2 hover:bg-lightprimary">
-                        بیشتر بدانید
-                      </Link>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            ))}
-          </Carousel>
+        <div className="aspect-[1920/900] w-full rounded-[24px] overflow-hidden shadow-md" dir="ltr">
+          {slides.length <= 1 ? (
+            <SlideImage slide={slides[0] || DEFAULT_SLIDES[0]} />
+          ) : (
+            <Carousel slideInterval={6000} pauseOnHover>
+              {slides.map((s) => (
+                <SlideImage key={s.id} slide={s} />
+              ))}
+            </Carousel>
+          )}
         </div>
       </section>
 

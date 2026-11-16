@@ -117,7 +117,7 @@ function ContentPage() {
                 افزودن اسلاید
               </Button>
             </div>
-            {!slides.length ? <p className="text-darklink text-sm">اسلایدی ثبت نشده است؛ اسلایدهای پیش‌فرض نمایش داده می‌شوند.</p> : null}
+            {!slides.length ? <p className="text-darklink text-sm">اسلایدی ثبت نشده است؛ بنر پیش‌فرض صفحه اصلی نمایش داده می‌شود.</p> : null}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-30">
               {slides.map((s) => (
                 <div key={s.id} className="border border-ld rounded-md overflow-hidden">
