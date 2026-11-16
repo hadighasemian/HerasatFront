@@ -6,14 +6,17 @@ import { Icon } from "@iconify/react/offline";
 import CardBox from "@/app/components/shared/CardBox";
 import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/api";
-import { toPersianDigits } from "@/lib/jalali";
 import { visibleMenu } from "./layout/vertical/sidebar/Sidebaritems";
-import type { Paginated, ReportItem } from "@/lib/types";
+import { isoToJalaliDate, toPersianDigits } from "@/lib/jalali";
+import type { Paginated, ReportItem, TodoItem } from "@/lib/types";
 
 export default function DashboardHome() {
   const { user, can } = useAuth();
   const [pending, setPending] = useState<number | null>(null);
+  const [openTodos, setOpenTodos] = useState<TodoItem[] | null>(null);
+  const [openTodoTotal, setOpenTodoTotal] = useState(0);
   const canReview = can("reports.review");
+  const canTodos = can("todos.use");
 
   useEffect(() => {
     if (!canReview) return;
@@ -22,6 +25,17 @@ export default function DashboardHome() {
       .then((r) => setPending(r.data.meta.total))
       .catch(() => undefined);
   }, [canReview]);
+
+  useEffect(() => {
+    if (!canTodos) return;
+    api
+      .get<Paginated<TodoItem>>("/api/todos", { params: { status: "open", per_page: 5 } })
+      .then((r) => {
+        setOpenTodos(r.data.data);
+        setOpenTodoTotal(r.data.meta.total);
+      })
+      .catch(() => undefined);
+  }, [canTodos]);
 
   const links = visibleMenu(can)
     .flatMap((m) => m.items.flatMap((g) => g.children))
@@ -40,6 +54,39 @@ export default function DashboardHome() {
           </div>
         </div>
       </CardBox>
+
+      {canTodos && openTodos !== null ? (
+        <div data-testid="todo-widget">
+        <CardBox>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-full bg-lightprimary text-primary flex items-center justify-center">
+                <Icon icon="solar:checklist-minimalistic-line-duotone" height={26} />
+              </div>
+              <div>
+                <h2 className="font-semibold">کارهای باز</h2>
+                <p className="text-xs text-darklink">
+                  {openTodoTotal ? `${toPersianDigits(openTodoTotal)} کار در انتظار انجام` : "کار بازی ندارید"}
+                </p>
+              </div>
+            </div>
+            <Link href="/dashboard/todos" className="text-sm text-primary font-medium hover:underline">
+              مشاهده همه
+            </Link>
+          </div>
+          {openTodos.length ? (
+            <ul className="divide-y divide-border dark:divide-darkborder">
+              {openTodos.map((t) => (
+                <li key={t.id} className="py-2 flex items-center justify-between gap-3">
+                  <span className="truncate">{t.title}</span>
+                  {t.due_date ? <span className="text-xs text-darklink shrink-0">{isoToJalaliDate(t.due_date)}</span> : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </CardBox>
+        </div>
+      ) : null}
 
       {canReview && pending !== null ? (
         <Link href="/dashboard/reports?status=submitted">

@@ -81,3 +81,27 @@ export interface ReportDetail extends ReportItem {
   attachments: { id: number; name: string; mime: string; size: number }[];
   history: { from: string | null; to: string; note: string | null; by: string | null; at: string }[];
 }
+
+export interface TodoItem {
+  id: number;
+  title: string;
+  notes: string | null;
+  due_date: string | null;
+  is_done: boolean;
+  completed_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export type LoginResult = "success" | "failed" | "logout" | "locked" | "other";
+
+export interface LoginHistoryItem {
+  id: number;
+  action: string;
+  result: LoginResult;
+  result_label: string;
+  occurred_at: string | null;
+  ip: string | null;
+  browser: string | null;
+  os: string | null;
+}

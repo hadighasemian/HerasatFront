@@ -13,7 +13,7 @@ export default function SidebarMenu({ className = "" }: { className?: string }) 
   const selected = menu.find((m) => m.id === selectedIconId) || menu[0];
   return (
     <SimpleBar className="h-[calc(100vh_-_85px)]">
-      <SidebarItems className={className}>
+      <SidebarItems className={className} data-testid="sidebar-menu">
         <SidebarItemGroup className="sidebar-nav hide-menu">
           {selected?.items.map((group) => (
             <React.Fragment key={group.heading}>

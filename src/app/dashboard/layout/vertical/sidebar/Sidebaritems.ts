@@ -20,7 +20,7 @@ export const REPORT_PERMISSIONS = ["reports.review", "reports.view_approved", "r
 
 /**
  * Dashboard menu. Visibility here is only cosmetic: every API endpoint enforces the same
- * permission on the server (route `can:` middleware / ReportPolicy).
+ * permission on the server (route `can:` middleware / policies).
  */
 const SidebarContent: MenuItem[] = [
   {
@@ -29,18 +29,18 @@ const SidebarContent: MenuItem[] = [
     icon: "solar:layers-line-duotone",
     items: [
       {
-        heading: "عمومی",
+        heading: "داشبورد",
         children: [
           { id: "home", name: "داشبورد", icon: "solar:widget-add-line-duotone", url: "/dashboard" },
+          { id: "todos", name: "کارهای من", icon: "solar:checklist-minimalistic-line-duotone", url: "/dashboard/todos", permissions: ["todos.use"] },
           { id: "profile", name: "پروفایل من", icon: "solar:user-circle-line-duotone", url: "/dashboard/profile" },
-          { id: "reports", name: "گزارش‌های مردمی", icon: "solar:document-text-line-duotone", url: "/dashboard/reports", permissions: REPORT_PERMISSIONS },
         ],
       },
     ],
   },
   {
     id: 2,
-    name: "مدیریت",
+    name: "مدیریت سیستم",
     icon: "solar:settings-line-duotone",
     items: [
       {
@@ -50,6 +50,19 @@ const SidebarContent: MenuItem[] = [
           { id: "roles", name: "نقش‌ها و دسترسی‌ها", icon: "solar:shield-user-line-duotone", url: "/dashboard/roles", permissions: ["roles.view"] },
           { id: "content", name: "محتوای سایت", icon: "solar:gallery-wide-line-duotone", url: "/dashboard/content", permissions: ["content.manage"] },
           { id: "audit", name: "گزارش رویدادها", icon: "solar:history-line-duotone", url: "/dashboard/audit-logs", permissions: ["audit.view"] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "حراست پرسنلی",
+    icon: "solar:shield-check-line-duotone",
+    items: [
+      {
+        heading: "حفاظت پرسنلی",
+        children: [
+          { id: "reports", name: "گزارش‌های مردمی", icon: "solar:document-text-line-duotone", url: "/dashboard/reports", permissions: REPORT_PERMISSIONS },
         ],
       },
     ],
@@ -67,6 +80,17 @@ export function visibleMenu(can: (p: string[]) => boolean): MenuItem[] {
     ...m,
     items: m.items.map((g) => ({ ...g, children: filter(g.children) })).filter((g) => g.children.length),
   })).filter((m) => m.items.length);
+}
+
+/** Section id that contains the current path (longest URL match; /dashboard is exact-only). */
+export function menuIdForPath(pathname: string, menu: MenuItem[]): number | undefined {
+  const entries = menu.flatMap((m) => m.items.flatMap((g) => g.children.map((c) => ({ id: m.id, url: c.url }))));
+  const exact = entries.find((e) => e.url === pathname);
+  if (exact) return exact.id;
+  const prefix = entries
+    .filter((e) => e.url !== "/dashboard" && pathname.startsWith(e.url + "/"))
+    .sort((a, b) => b.url.length - a.url.length)[0];
+  return prefix?.id ?? menu[0]?.id;
 }
 
 export default SidebarContent;
