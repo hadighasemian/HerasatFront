@@ -1,11 +1,18 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import LogoIcon from "/public/images/logos/herasat-icon.svg";
+import NicicoLogo from "/public/images/logos/nicico.png";
 
 const Logo = () => (
-  <Link href="/" aria-label="صفحه اصلی">
-    <Image src={LogoIcon} alt="حراست" width={40} height={40} />
+  <Link href="/" className="flex justify-center" aria-label="صفحه اصلی">
+    <Image
+      src={NicicoLogo}
+      alt="حراست مجتمع مس شهربابک"
+      width={210}
+      height={256}
+      className="h-11 w-auto"
+      priority
+    />
   </Link>
 );
 
