@@ -37,6 +37,9 @@ export interface UserItem {
   employment_type?: string | null;
   national_code_masked?: string | null;
   phone_masked?: string | null;
+  failed_login_attempts?: number;
+  locked_until?: string | null;
+  password_changed_at?: string | null;
 }
 
 export interface Role {
@@ -48,6 +51,8 @@ export interface Role {
   is_system: boolean;
   users_count: number | null;
   permissions: string[];
+  /** Permissions this role can never lose (admin role: managing users and roles). */
+  locked_permissions?: string[];
 }
 
 export interface Permission {

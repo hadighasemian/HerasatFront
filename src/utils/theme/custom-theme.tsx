@@ -469,6 +469,8 @@ const customTheme = createTheme({
         on: "after:translate-x-full after:border-white rtl:after:-translate-x-full",
         off: "border-ld bg-gray-200 dark:border-gray-600 dark:bg-gray-700",
         color: {
+          // flowbite-react 0.12 uses "default" when no color is given (its bg-primary-700 does not exist here)
+          default: "border-primary bg-primary",
           blue: "border-primary bg-primary",
         },
       },

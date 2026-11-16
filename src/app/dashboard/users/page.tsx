@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Alert, Badge, Button, Dropdown, DropdownItem, Select, Spinner, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput } from "flowbite-react";
 import { Icon } from "@iconify/react/offline";
 import CardBox from "@/app/components/shared/CardBox";
@@ -16,6 +18,7 @@ import ImportModal from "./ImportModal";
 
 function UsersPage() {
   const { can, user: me } = useAuth();
+  const router = useRouter();
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
@@ -121,12 +124,24 @@ function UsersPage() {
             </TableHead>
             <TableBody className="divide-y divide-border dark:divide-darkborder">
               {data?.data.map((u) => (
-                <TableRow key={u.id}>
+                <TableRow
+                  key={u.id}
+                  className="cursor-pointer"
+                  data-testid={`user-row-${u.id}`}
+                  onClick={(e) => {
+                    // ignore clicks that end a text selection
+                    if (window.getSelection()?.toString()) return;
+                    if ((e.target as HTMLElement).closest("a,button,[role=menu],[role=menuitem]")) return;
+                    router.push(`/dashboard/users/${u.id}`);
+                  }}
+                >
                   <TableCell dir="ltr" className="text-end">
                     {u.personnel_code}
                   </TableCell>
                   <TableCell className="font-medium whitespace-nowrap">
-                    {u.first_name} {u.last_name}
+                    <Link href={`/dashboard/users/${u.id}`} className="hover:text-primary hover:underline">
+                      {u.first_name} {u.last_name}
+                    </Link>
                   </TableCell>
                   <TableCell className="text-xs">
                     <div>{u.department || "—"}</div>
@@ -151,12 +166,16 @@ function UsersPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-xs whitespace-nowrap">{toJalali(u.last_login_at)}</TableCell>
-                  <TableCell>
+                  {/* actions: never open the profile (the dropdown menu is portalled, React events still bubble) */}
+                  <TableCell onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} data-testid="user-row-actions">
                     <Dropdown label="" dismissOnClick renderTrigger={() => (
                       <button type="button" aria-label="عملیات" className="h-9 w-9 rounded-full hover:bg-lightprimary hover:text-primary flex items-center justify-center">
                         <Icon icon="solar:menu-dots-bold" height={20} />
                       </button>
                     )}>
+                      <DropdownItem as={Link} href={`/dashboard/users/${u.id}`}>
+                        مشاهده پروفایل
+                      </DropdownItem>
                       {can("users.update") ? <DropdownItem onClick={() => setEditId(u.id)}>ویرایش</DropdownItem> : null}
                       {can("users.reset_password") ? (
                         <DropdownItem onClick={() => action(() => api.post(`/api/admin/users/${u.id}/reset-password`), "رمز عبور این کاربر به کد ملی بازنشانی شود؟")}>بازنشانی رمز به کد ملی</DropdownItem>

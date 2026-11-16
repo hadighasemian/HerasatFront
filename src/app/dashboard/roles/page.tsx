@@ -14,7 +14,8 @@ import type { Permission, Role } from "@/lib/types";
 type Dialog = { kind: "role" } | { kind: "permission" } | null;
 
 function RolesPage() {
-  const { can, refresh } = useAuth();
+  const { can, refresh, user: me } = useAuth();
+  const iAmAdmin = !!me?.roles.some((r) => r.name === "admin");
   const canManage = can("roles.manage");
   const [roles, setRoles] = useState<Role[]>([]);
   const [perms, setPerms] = useState<Permission[]>([]);
@@ -43,7 +44,10 @@ function RolesPage() {
   }, [load]);
 
   const role = roles.find((r) => r.id === selected) || null;
-  const locked = !canManage || (role?.name === "admin" && role.is_system);
+  const isAdminRole = role?.name === "admin";
+  // the admin role is editable, but only by an administrator (the API enforces the same rule)
+  const locked = !canManage || (isAdminRole && !iAmAdmin);
+  const lockedPerms = role?.locked_permissions || [];
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -60,7 +64,7 @@ function RolesPage() {
     if (!role) return;
     setSaving(true);
     try {
-      const { data } = await api.put<{ role: Role }>(`/api/admin/roles/${role.id}/permissions`, { permissions: checked });
+      const { data } = await api.put<{ role: Role }>(`/api/admin/roles/${role.id}/permissions`, { permissions: Array.from(new Set([...checked, ...lockedPerms])) });
       setRoles(roles.map((r) => (r.id === role.id ? data.role : r)));
       setFlash({ ok: true, text: "دسترسی‌های نقش ذخیره شد." });
       refresh();
@@ -184,28 +188,46 @@ function RolesPage() {
                   ) : null}
                 </div>
               </div>
-              {role.name === "admin" ? <Alert color="lightinfo" className="mb-4">نقش مدیر سیستم همه دسترسی‌ها را دارد و قابل تغییر نیست.</Alert> : null}
+              {isAdminRole ? (
+                <Alert color="lightinfo" className="mb-4" data-testid="admin-role-hint">
+                  دسترسی‌های نقش مدیر سیستم قابل تغییر است. دسترسی‌های دارای علامت قفل (مدیریت کاربران و نقش‌ها) همیشه برای این نقش باقی می‌مانند تا دسترسی مدیریت سامانه از دست نرود.
+                  {!iAmAdmin ? " فقط مدیر سیستم می‌تواند این نقش را ویرایش کند." : ""}
+                </Alert>
+              ) : null}
               <div className="space-y-5">
                 {Object.entries(groups).map(([g, list]) => (
                   <div key={g}>
                     <h3 className="text-sm font-semibold text-darklink mb-2">{g}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {list.map((p) => (
-                        <label key={p.id} className="flex items-start gap-2 p-2 rounded-md border border-ld cursor-pointer">
-                          <Checkbox
-                            className="mt-1"
-                            disabled={locked}
-                            checked={checked.includes(p.name)}
-                            onChange={() => setChecked(checked.includes(p.name) ? checked.filter((x) => x !== p.name) : [...checked, p.name])}
-                          />
-                          <span>
-                            <span className="block text-sm">{p.display_name}</span>
-                            <span className="block text-xs text-darklink" dir="ltr">
-                              {p.name}
+                      {list.map((p) => {
+                        const required = lockedPerms.includes(p.name);
+                        return (
+                          <label
+                            key={p.id}
+                            className={`flex items-start gap-2 p-2 rounded-md border border-ld ${locked || required ? "cursor-not-allowed" : "cursor-pointer"}`}
+                            data-testid={`perm-${p.name}`}
+                          >
+                            <Checkbox
+                              className="mt-1"
+                              disabled={locked || required}
+                              checked={required || checked.includes(p.name)}
+                              onChange={() => setChecked(checked.includes(p.name) ? checked.filter((x) => x !== p.name) : [...checked, p.name])}
+                            />
+                            <span className="flex-1 min-w-0">
+                              <span className="block text-sm">{p.display_name}</span>
+                              <span className="block text-xs text-darklink" dir="ltr">
+                                {p.name}
+                              </span>
+                              {required ? (
+                                <span className="flex items-center gap-1 text-xs text-warning mt-1">
+                                  <Icon icon="solar:lock-keyhole-minimalistic-line-duotone" height={14} />
+                                  الزامی برای مدیر سیستم (قابل حذف نیست)
+                                </span>
+                              ) : null}
                             </span>
-                          </span>
-                        </label>
-                      ))}
+                          </label>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
